@@ -124,6 +124,7 @@ data class KeyboardCallbacks(
     val onVoiceStickyToggle: (() -> Unit)? = null,
     val onVoiceHoldEnd: (() -> Unit)? = null,
     val onVoiceHoldCancel: (() -> Unit)? = null,
+    val onSpaceSwipeUp: (() -> Unit)? = null,
     val onPageDown: (() -> Unit)? = null,
     val onPageUp: (() -> Unit)? = null,
     val onCursorMove: ((Int) -> Unit)? = null,
