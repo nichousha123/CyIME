@@ -395,6 +395,67 @@ internal fun rememberImeKeyboardCallbacks(
                 val state = service.uiState.value
                 if (state.isVoiceMode && state.voiceSticky) service.cancelVoiceSession()
             },
+            
+            onSpaceSwipeUp = {
+                val connection = service.currentInputConnection
+
+                val extracted = if (
+                    connection != null &&
+                    !service.uiState.value.inputTarget.isInternal &&
+                    !service.isSecretEditor()
+                ) {
+                    runCatching {
+                        connection.getExtractedText(
+                            android.view.inputmethod.ExtractedTextRequest(),
+                            0
+                        )
+                    }.getOrNull()
+                } else {
+                    null
+                }
+
+                val text = extracted
+                    ?.takeIf {
+                        it.startOffset == 0 &&
+                        it.partialStartOffset == -1
+                    }
+                    ?.text
+                    ?.toString()
+
+                if (text.isNullOrEmpty()) {
+                    android.widget.Toast.makeText(
+                        service,
+                        "读取失败或输入框没有可复制的文本",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    runCatching {
+                        val clipboard = service.getSystemService(
+                            android.content.Context.CLIPBOARD_SERVICE
+                        ) as android.content.ClipboardManager
+
+                        clipboard.setPrimaryClip(
+                            android.content.ClipData.newPlainText(
+                                "CyIME",
+                                text
+                            )
+                        )
+                    }.onSuccess {
+                        android.widget.Toast.makeText(
+                            service,
+                            "已复制输入框全部文本",
+                            android.widget.Toast.LENGTH_SHORT
+                        ).show()
+                    }.onFailure {
+                        android.widget.Toast.makeText(
+                            service,
+                            "复制失败",
+                            android.widget.Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            },
+
             onPageDown = { service.keyRouter.pageDown() },
             onPageUp = { service.keyRouter.pageUp() },
             onGlobalCandidateSelect = { globalIndex ->
