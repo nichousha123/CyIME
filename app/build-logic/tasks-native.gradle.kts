@@ -89,8 +89,17 @@ fun downloadWithMirrors(urls: List<String>, target: File, workDir: File, desc: S
     return false
 }
 
+
 fun githubUrls(url: String): List<String> = buildList {
-    ghMirrors.forEach { add("${it.trimEnd('/')}/$url") }
+    // 优先使用 GitHub 官方原始文件地址
+    add(url)
+
+    // 官方地址失败时，再尝试镜像
+    ghMirrors.forEach {
+        add("${it.trimEnd('/')}/$url")
+    }
+}
+
     add(url) // 官方源兜底
 }
 
