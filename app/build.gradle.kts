@@ -292,6 +292,17 @@ android {
     }
 }
 
+// Robolectric 单元测试内存优化
+tasks.withType<Test>().configureEach {
+    // 每个测试进程最多使用 4GB Java 堆内存
+    maxHeapSize = "4g"
+
+    // 同一时间只运行一个测试进程
+    maxParallelForks = 1
+
+    // 每运行完一个测试类，就重新启动测试进程，减少内存累积
+    forkEvery = 1
+}
 android.applicationVariants.all {
     val appName = "CyIME"
     outputs.all {
