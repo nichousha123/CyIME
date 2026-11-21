@@ -101,6 +101,12 @@ private fun EmojiContent(
         listOf(EmojiCategory(name = "最近使用", icon = "🕘", emojis = recentEmojis)) +
             allCategories.filter { !it.isPlugin } + allCategories.filter { it.isPlugin }
     }
+    
+val pager = rememberPagerState(
+    initialPage = 0,
+    pageCount = { categories.size }
+)
+
 var initialCategoryChosen by remember { mutableStateOf(true) }
     val tabs = rememberLazyListState()
     val scope = rememberCoroutineScope()
