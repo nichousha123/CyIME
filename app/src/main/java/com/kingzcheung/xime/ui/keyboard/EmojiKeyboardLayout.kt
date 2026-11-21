@@ -97,10 +97,6 @@ private fun EmojiContent(
     }
     // One category strip for built-ins and plugins, in exactly the pager's order.
     // No separate plugin-group bar or bottom navigation consuming content height.
-    val pager = rememberPagerState(
-    initialPage = 0,
-    pageCount = { categories.size }
-)
     val categories = remember(allCategories, recentEmojis) {
         listOf(EmojiCategory(name = "最近使用", icon = "🕘", emojis = recentEmojis)) +
             allCategories.filter { !it.isPlugin } + allCategories.filter { it.isPlugin }
