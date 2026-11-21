@@ -5,6 +5,8 @@ import org.gradle.api.tasks.PathSensitivity
 // 使用官方 Maven 预编译 onnxruntime-android AAR（内置 CPU + NNAPI EP），
 // 不再从源码自行编译（自行编译需 30-60 分钟且依赖网络/NDK 稳定性）。
 val onnxVersion = "1.28.0"
+// ONNX Runtime 源码版本引用，必须与 AAR 版本对应
+val onnxSourceRef = "v${onnxVersion}"
 val onnxAarUrl = "https://repo1.maven.org/maven2/com/microsoft/onnxruntime/onnxruntime-android/${onnxVersion}/onnxruntime-android-${onnxVersion}.aar"
 // 头文件不在 AAR 内，需从对应版本源码 raw 取（仅需 C API + provider factory 头）
 val onnxHeadersBase = "https://raw.githubusercontent.com/microsoft/onnxruntime/v${onnxVersion}/include/onnxruntime"
