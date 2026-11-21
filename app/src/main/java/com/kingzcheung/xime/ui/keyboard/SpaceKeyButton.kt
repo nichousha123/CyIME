@@ -66,6 +66,7 @@ fun SpaceKeyButton(
     val onVoiceToggle by rememberUpdatedState(actions.onVoiceToggle)
     val onVoiceHoldEnd by rememberUpdatedState(actions.onVoiceHoldEnd)
     val onVoiceHoldCancel by rememberUpdatedState(actions.onVoiceHoldCancel)
+    val onSpaceSwipeUp by rememberUpdatedState(actions.onSpaceSwipeUp)
     val voiceOn by rememberUpdatedState(isVoiceMode)
     val holdAction = settings.effectiveSpaceHold
     val cursorUnitPx = rememberCursorUnitPx()
@@ -201,13 +202,20 @@ fun SpaceKeyButton(
                                 if (steps != 0 || rows != 0) SpaceAfterCursorGuard.mark(change.uptimeMillis)
                             }
                             change.consume()
-                            if (!change.pressed) {
-                                if (!held && !movedBeforeHold && !guarded) {
-                                    gapLightTrigger.tap()
-                                    currentClick()
-                                }
-                                break
-                            }
+     if (!change.pressed) {
+    val swipeUp = down.position.y - change.position.y >
+        maxOf(tapTolerance, size.height * 0.5f)
+
+    if (!held && !startedVoice && !cursorActive && swipeUp) {
+        onSpaceSwipeUp?.invoke()
+    }
+
+    if (!held && !movedBeforeHold && !guarded) {
+        gapLightTrigger.tap()
+        currentClick()
+    }
+    break
+                    }
                         }
                     } finally {
                         if (cursorActive) {
