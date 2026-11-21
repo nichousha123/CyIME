@@ -1,6 +1,7 @@
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import java.util.Base64
 import java.util.Properties
+import org.gradle.api.tasks.testing.Test
 
 plugins {
     alias(libs.plugins.android.application)
