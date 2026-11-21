@@ -478,6 +478,7 @@ fun KeyboardView(
             onVoiceToggle = callbacks.onVoiceStickyToggle,
             onVoiceHoldEnd = callbacks.onVoiceHoldEnd,
             onVoiceHoldCancel = callbacks.onVoiceHoldCancel,
+            onSpaceSwipeUp = callbacks.onSpaceSwipeUp,
             isSttEnabled = state.isSttEnabled,
             schemas = com.kingzcheung.xime.settings.InputModes.available(state.schemas),
             currentInputModeId = com.kingzcheung.xime.settings.InputModes.selectedId(state.currentSchemaId, state.isAsciiMode),
