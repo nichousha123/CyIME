@@ -97,7 +97,6 @@ fun SymbolKeyboardLayout(
             else category
         }
   }
-    }
     val scope = rememberCoroutineScope()
 
     val pagerState = rememberPagerState(
