@@ -106,8 +106,6 @@ val pager = rememberPagerState(
     initialPage = 0,
     pageCount = { categories.size }
 )
-
-var initialCategoryChosen by remember { mutableStateOf(true) }
     val tabs = rememberLazyListState()
     val scope = rememberCoroutineScope()
     LaunchedEffect(pager.currentPage, categories.size) {
