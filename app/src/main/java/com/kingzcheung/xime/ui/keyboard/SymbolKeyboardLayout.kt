@@ -91,11 +91,12 @@ fun SymbolKeyboardLayout(
     // 「按键符号 › 常用符号栏」里自己填的符号、短语排在「常用」页最前面，按原样上屏（默认的「符号」键进的就是这个面板）。
     val ownCommon = LocalKeyboardInputPreferences.current.symbolsFor(SideSymbolTarget.COMMON).orEmpty()
     val displayCategories = remember(recentSymbols, textLabel, japanese, ownCommon) {
-            SymbolCategory(name = "最近", id = "recentSymbols", symbols = recentSymbols)) +
-            SymbolData.categories.map { category ->
-                if (japanese && category.id == "punctuationSymbols") category.copy(name = "全")
-                else category
-            }
+    listOf(SymbolCategory(name = "最近", id = "recentSymbols", symbols = recentSymbols)) +
+        SymbolData.categories.map { category ->
+            if (japanese && category.id == "punctuationSymbols") category.copy(name = "全")
+            else category
+        }
+  }
     }
     val scope = rememberCoroutineScope()
 
