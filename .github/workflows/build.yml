@@ -91,9 +91,26 @@ jobs:
           path: app/build/test-results/testDebugUnitTest/
           retention-days: 7
           
+     
       - name: Build Debug APKs
-      if: always()
+        if: always()
         run: ./gradlew assembleDebug --no-daemon
+
+      - name: Build Plugin XIPKs
+        if: always()
+        run: bash scripts/build-plugins.sh
+
+      - name: Upload Debug APKs
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: debug-apks
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            build/plugin-release/*.xipk
+          if-no-files-found: ignore
+          retention-days: 7
+
 
       - name: Build Plugin XIPKs
         run: bash scripts/build-plugins.sh
