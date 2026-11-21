@@ -44,7 +44,7 @@ internal fun KaomojiKeyboard(onSelect: (String) -> Unit, modifier: Modifier = Mo
     // Same as the emoji panel: page 0 is 最近, page i + 1 is category i, in tab order;
     // swiping the grid left/right moves between categories and the tab strip follows.
     val categories = KaomojiData.categories
-    val pager = rememberPagerState(initialPage = 1, pageCount = { categories.size + 1 })
+    val pager = rememberPagerState(initialPage = 0, pageCount = { categories.size + 1 })
     val tabs = rememberLazyListState()
     val scope = rememberCoroutineScope()
     LaunchedEffect(pager.currentPage) {
