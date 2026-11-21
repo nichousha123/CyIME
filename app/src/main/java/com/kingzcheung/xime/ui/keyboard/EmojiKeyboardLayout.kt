@@ -101,17 +101,9 @@ private fun EmojiContent(
         listOf(EmojiCategory(name = "最近使用", icon = "🕘", emojis = recentEmojis)) +
             allCategories.filter { !it.isPlugin } + allCategories.filter { it.isPlugin }
     }
-    val pager = rememberPagerState(initialPage = if (categories.size > 1) 1 else 0,
-        pageCount = { categories.size })
-    var initialCategoryChosen by remember { mutableStateOf(categories.size > 1) }
+var initialCategoryChosen by remember { mutableStateOf(true) }
     val tabs = rememberLazyListState()
     val scope = rememberCoroutineScope()
-    LaunchedEffect(categories.size) {
-        if (!initialCategoryChosen && categories.size > 1) {
-            pager.scrollToPage(1)
-            initialCategoryChosen = true
-        }
-    }
     LaunchedEffect(pager.currentPage, categories.size) {
         if (tabs.layoutInfo.visibleItemsInfo.isNotEmpty() &&
             tabs.layoutInfo.visibleItemsInfo.none { it.index == pager.currentPage })
