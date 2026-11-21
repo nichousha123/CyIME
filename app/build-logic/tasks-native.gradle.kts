@@ -183,15 +183,45 @@ val downloadOnnx by tasks.registering {
         dstHeaders.listFiles()?.forEach { old ->
             if (old.isFile) old.delete()
         }
-        for (rel in headersToFetch) {
-            val target = java.io.File(dstHeaders, rel.substringAfterLast("/"))
-            val url = "$onnxHeadersBase/$rel"
-            if (downloadWithMirrors(githubUrls(url), target, buildDir, "onnxruntime header $rel")) {
-                println("Header ok: ${target.name}")
-            } else {
-                System.err.println("WARNING: failed to fetch header $rel")
-            }
-        }
+    
+for (rel in headersToFetch) {
+    val target = java.io.File(dstHeaders, rel.substringAfterLast("/"))
+    val url = "$onnxHeadersBase/$rel"
+
+    val downloaded = downloadWithMirrors(
+        githubUrls(url),
+        target,
+        buildDir,
+        "onnxruntime header $rel"
+    )
+
+    if (!downloaded || !target.exists() || target.length() == 0L) {
+        throw GradleException(
+            "ONNX Runtime header download failed: $rel\nURL: $url"
+        )
+    }
+
+    println("Header ok: ${target.name} (${target.length()} bytes)")
+}
+
+// 单独检查 C++ 编译必需的核心头文件
+val apiHeader = File(dstHeaders, "onnxruntime_c_api.h")
+
+if (!apiHeader.exists() || apiHeader.length() == 0L) {
+    throw GradleException(
+        "Critical ONNX Runtime header missing: onnxruntime_c_api.h"
+    )
+}
+
+// 检查下载的文件是否确实是 ONNX Runtime C API 头文件
+if (!apiHeader.readText().contains("ORT_API_VERSION")) {
+    throw GradleException(
+        "Invalid onnxruntime_c_api.h: ORT_API_VERSION not found"
+    )
+}
+
+println("ONNX Runtime C API header validation passed")
+
 
         // 4. Marker
         nnapiMarker.parentFile.mkdirs()
