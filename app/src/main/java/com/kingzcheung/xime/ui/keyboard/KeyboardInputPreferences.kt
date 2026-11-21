@@ -616,6 +616,7 @@ data class KeyboardInputActions(
     val onVoiceHoldEnd: (() -> Unit)? = null,
     /** 按住空格说话上滑后松手：停麦，这次说的字全部撤掉，什么都不上屏。 */
     val onVoiceHoldCancel: (() -> Unit)? = null,
+    val onSpaceSwipeUp: (() -> Unit)? = null,
     val isSttEnabled: Boolean = false,
     val schemas: List<SchemaInfo> = emptyList(),
     val currentInputModeId: String = "",
