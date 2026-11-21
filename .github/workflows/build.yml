@@ -110,18 +110,3 @@ jobs:
             build/plugin-release/*.xipk
           if-no-files-found: ignore
           retention-days: 7
-
-
-      - name: Build Plugin XIPKs
-        run: bash scripts/build-plugins.sh
-
-      - name: Upload Debug APKs
-      if: always()
-        uses: actions/upload-artifact@v7
-        with:
-        if-no-files-found: ignore
-          name: debug-apks
-          path: |
-            app/build/outputs/apk/debug/*.apk
-            build/plugin-release/*.xipk
-          retention-days: 7
