@@ -156,8 +156,6 @@ val downloadOnnx by tasks.registering {
         val dstHeaders = File(cppDir, "include")
         dstHeaders.mkdirs()
         val headersToFetch = listOf(
-            "core/session/experimental_onnxruntime_cxx_api.h",
-            "core/session/experimental_onnxruntime_cxx_inline.h",
             "core/session/onnxruntime_c_api.h",
             "core/session/onnxruntime_cxx_api.h",
             "core/session/onnxruntime_cxx_inline.h",
