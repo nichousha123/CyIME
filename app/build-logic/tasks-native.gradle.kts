@@ -99,10 +99,6 @@ fun githubUrls(url: String): List<String> = buildList {
         add("${it.trimEnd('/')}/$url")
     }
 }
-
-    add(url) // 官方源兜底
-}
-
 val downloadOnnx by tasks.registering {
     val cppDir = file("src/main/jni/onnxruntime")
     val jniLibsDir = file("src/main/jniLibs")
